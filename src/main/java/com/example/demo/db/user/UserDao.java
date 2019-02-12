@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class UserDao {
@@ -29,6 +30,20 @@ public class UserDao {
             String password = resultSet.getString("password");
             return new User(id, name, email, password);
         }
+    }
+
+    public List<User> listActiveUsers() {
+        return jdbcTemplate.query(
+                "SELECT id, name, email, password FROM user WHERE deleted = 0 ORDER BY id ASC",
+                new UserRowMapper()
+        );
+    }
+
+    public List<User> listAllUsers() {
+        return jdbcTemplate.query(
+                "SELECT id, name, email, password FROM user ORDER BY id ASC",
+                new UserRowMapper()
+        );
     }
 
 }
