@@ -10,7 +10,7 @@ public class User {
     private String email;
     private String password;
     private boolean deleted;
-    private List<Wallet> wallets = new ArrayList<>();
+    private List<Wallet> wallets;
 
     public User(long id, String name, String email, String password) {
         this.id = id;
@@ -38,5 +38,13 @@ public class User {
 
     public boolean isDeleted() {
         return deleted;
+    }
+
+    public List<Wallet> getWallets() {
+        return wallets;
+    }
+
+    public void setWallets(List<Wallet> wallets) {
+        this.wallets = wallets;
     }
 }
