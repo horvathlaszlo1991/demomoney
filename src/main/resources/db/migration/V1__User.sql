@@ -8,3 +8,6 @@ CREATE TABLE user(
 )
 
 ENGINE=InnoDB;
+
+INSERT INTO user (name, email, password) VALUES ('Geza', 'geza@kekazeg.hu', 'gezavagyok11');
+INSERT INTO user (name, email, password) VALUES ('Joska', 'joskagyerek@bezboz.hu', 'mostpofazzalJoskaGyerek');

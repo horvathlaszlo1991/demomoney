@@ -3,6 +3,7 @@ package com.example.demo.bl.user;
 import com.example.demo.db.user.UserDao;
 import com.example.demo.model.Response;
 import com.example.demo.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class UserService {
 
     private UserDao userDao;
 
+    @Autowired
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
