@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -10,6 +9,7 @@ public class User {
     private String email;
     private String password;
     private boolean deleted;
+    private UserRole userRole;
     private List<Wallet> wallets;
 
     public User(long id, String name, String email, String password) {
@@ -18,6 +18,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.deleted = false;
+    }
+
+    public User(long id, String name, String email, String password, boolean deleted, UserRole userRole) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.deleted = deleted;
+        this.userRole = userRole;
     }
 
     public long getId() {
@@ -46,5 +55,42 @@ public class User {
 
     public void setWallets(List<Wallet> wallets) {
         this.wallets = wallets;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", deleted=" + deleted +
+                ", userRole=" + userRole +
+                ", wallets=" + wallets +
+                '}';
     }
 }

@@ -28,4 +28,9 @@ public class UserController {
     public String welcome() {
         return "Hello World!";
     }
+
+    @RequestMapping(value = "/user/admin", method = RequestMethod.GET)
+    public String adminInfo() {
+        return userService.listAllUsers().get(2).toString();
+    }
 }

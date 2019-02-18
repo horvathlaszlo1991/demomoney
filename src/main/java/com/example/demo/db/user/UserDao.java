@@ -2,6 +2,7 @@ package com.example.demo.db.user;
 
 import com.example.demo.model.Response;
 import com.example.demo.model.User;
+import com.example.demo.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,20 +33,21 @@ public class UserDao {
             String name = resultSet.getString("name");
             String email = resultSet.getString("email");
             String password = resultSet.getString("password");
-            return new User(id, name, email, password);
+            UserRole userRole = UserRole.valueOf(resultSet.getString("userrole"));
+            return new User(id, name, email, password, false, userRole);
         }
     }
 
     public List<User> listActiveUsers() {
         return jdbcTemplate.query(
-                "SELECT id, name, email, password FROM user WHERE deleted = 0 ORDER BY id ASC",
+                "SELECT id, name, email, password, userrole FROM user WHERE deleted = 0 ORDER BY id ASC",
                 new UserRowMapper()
         );
     }
 
     public List<User> listAllUsers() {
         return jdbcTemplate.query(
-                "SELECT id, name, email, password FROM user ORDER BY id ASC",
+                "SELECT id, name, email, password, userrole FROM user ORDER BY id ASC",
                 new UserRowMapper()
         );
     }
