@@ -1,13 +1,13 @@
 package com.example.demo.ui.user;
 
 import com.example.demo.bl.user.UserService;
+import com.example.demo.model.Response;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -29,8 +29,18 @@ public class UserController {
         return "Hello World!";
     }
 
-    @RequestMapping(value = "/user/admin", method = RequestMethod.GET)
-    public String adminInfo() {
-        return userService.listAllUsers().get(2).toString();
+    @RequestMapping(value = "/user/create", method = RequestMethod.POST)
+    public Response createUser(@RequestBody User user) {
+        return userService.createUser(user);
     }
+
+    @RequestMapping(value = "/user/{userid}", method = RequestMethod.GET)
+    public String getUserById(@PathVariable long userid) {
+        if (userService.findUserById(userid).isPresent()) {
+            return userService.findUserById(userid).get().toString();
+        } else {
+            return "User Not found";
+        }
+    }
+
 }

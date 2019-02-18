@@ -83,7 +83,7 @@ public class UserDao {
 
     public Optional<User> findUserById (long id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password FROM user WHERE id = ?",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password, userrole FROM user WHERE id = ?",
                     new UserRowMapper(), id));
         } catch (DataAccessException dae) {
             return Optional.empty();
@@ -92,7 +92,7 @@ public class UserDao {
 
     public Optional<User> findUserByEmail (String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password FROM user WHERE email = ?",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password, userrole FROM user WHERE email = ?",
                     new UserRowMapper(), email));
         } catch (DataAccessException dae) {
             return Optional.empty();
