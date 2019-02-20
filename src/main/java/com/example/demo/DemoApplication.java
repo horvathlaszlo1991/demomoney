@@ -44,8 +44,8 @@ public class DemoApplication extends WebSecurityConfigurerAdapter {
 				.and()
 				.formLogin()
 				.loginPage("/login.html").permitAll()
-				.defaultSuccessUrl("/products.html")
-				.failureUrl("/products.html")
+				.defaultSuccessUrl("/index.html")
+				.failureUrl("/error.html")
 				.and()
 				.logout().logoutSuccessUrl("/products.html");
 	}
@@ -58,8 +58,8 @@ public class DemoApplication extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth, DataSource dataSource, PasswordEncoder passwordEncoder) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder)
-				.usersByUsernameQuery("select user_name as principal, password as credentials, true from user where user_name = ?")
-				.authoritiesByUsernameQuery("select user_name, role from user where user_name = ?")
+				.usersByUsernameQuery("select name as principal, password as credentials, true from user where name = ?")
+				.authoritiesByUsernameQuery("select name, role from User where name = ?")
 				.rolePrefix("ROLE_");
 	}
 

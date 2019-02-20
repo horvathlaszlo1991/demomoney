@@ -33,21 +33,21 @@ public class UserDao {
             String name = resultSet.getString("name");
             String email = resultSet.getString("email");
             String password = resultSet.getString("password");
-            UserRole userRole = UserRole.valueOf(resultSet.getString("userrole"));
+            UserRole userRole = UserRole.valueOf(resultSet.getString("role"));
             return new User(id, name, email, password, false, userRole);
         }
     }
 
     public List<User> listActiveUsers() {
         return jdbcTemplate.query(
-                "SELECT id, name, email, password, userrole FROM user WHERE deleted = 0 ORDER BY id ASC",
+                "SELECT id, name, email, password, role FROM user WHERE deleted = 0 ORDER BY id ASC",
                 new UserRowMapper()
         );
     }
 
     public List<User> listAllUsers() {
         return jdbcTemplate.query(
-                "SELECT id, name, email, password, userrole FROM user ORDER BY id ASC",
+                "SELECT id, name, email, password, role FROM user ORDER BY id ASC",
                 new UserRowMapper()
         );
     }
@@ -83,7 +83,7 @@ public class UserDao {
 
     public Optional<User> findUserById (long id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password, userrole FROM user WHERE id = ?",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password, role FROM user WHERE id = ?",
                     new UserRowMapper(), id));
         } catch (DataAccessException dae) {
             return Optional.empty();
@@ -92,7 +92,7 @@ public class UserDao {
 
     public Optional<User> findUserByEmail (String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password, userrole FROM user WHERE email = ?",
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password, role FROM user WHERE email = ?",
                     new UserRowMapper(), email));
         } catch (DataAccessException dae) {
             return Optional.empty();
