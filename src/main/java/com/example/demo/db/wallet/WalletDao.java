@@ -30,13 +30,39 @@ public class WalletDao {
     private static class WalletRowMapper implements RowMapper<Wallet> {
         @Override
         public Wallet mapRow(ResultSet resultSet, int i) throws SQLException {
-            long id = resultSet.getLong("id");
-            long cash = resultSet.getLong("cash");
-            long card = resultSet.getLong("card");
-            User user = new UserDao(new JdbcTemplate()).findUserById(resultSet.getLong("user_id")).get();
-            return new Wallet(id, cash, card, user);
+            long wid = resultSet.getLong("wallet.id");
+            long wcash = resultSet.getLong("wallet.cash");
+            long wcard = resultSet.getLong("wallet.card");
+            long wuserid = resultSet.getLong("wallet.user_id");
+            String uname = resultSet.getString("user.name");
+            String uemail = resultSet.getString("user.email");
+            String upass = resultSet.getString("user.password");
+            return new Wallet(wid, wcash, wcard, new User(wuserid, uname, uemail, upass));
         }
     }
+
+    public List<Wallet> getWalletsFromUserByUserid(long userid) {
+        try {
+            return jdbcTemplate.query("SELECT wallet.id, wallet.cash, wallet.card, wallet.user_id, " +
+                            "user.name, user.email, user.password " +
+                            "FROM wallet JOIN user ON wallet.user_id = user.id WHERE wallet.user_id = ?", new WalletRowMapper(),
+                    userid);
+        } catch (DataAccessException dae) {
+            return Collections.emptyList();
+        }
+    }
+
+    /*
+    public List<Wallet> getWalletsFromUserByUserid(long userid) {
+        try {
+            return jdbcTemplate.query("SELECT id, cash, card, user_id FROM wallet WHERE user_id = ?", new WalletRowMapper(),
+                    userid);
+        } catch (DataAccessException dae) {
+            return Collections.emptyList();
+        }
+    }
+    */
+
 
     public Response createWallet(Wallet wallet) {
         try {
@@ -72,15 +98,6 @@ public class WalletDao {
             return new Response("Cash updated succesfully", true);
         } catch (DataAccessException dae) {
             return new Response(dae.getMessage(), false);
-        }
-    }
-
-    public List<Wallet> getWalletsFromUserByUserid(long userid) {
-        try {
-            return jdbcTemplate.query("SELECT id, cash, card, user_id FROM wallet WHERE user_id = ?", new WalletRowMapper(),
-                    userid);
-        } catch (DataAccessException dae) {
-            return Collections.emptyList();
         }
     }
 

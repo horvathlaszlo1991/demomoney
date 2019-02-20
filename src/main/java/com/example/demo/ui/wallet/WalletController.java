@@ -23,6 +23,9 @@ public class WalletController {
     @RequestMapping(value = "/wallets/{userid}", method = RequestMethod.GET)
     public String getWalletsFromUserByUserid(@PathVariable long userid) {
         //return "Hello " + userid;
+        if (walletService.getWalletsFromUserByUserid(userid).get(0) == null) {
+            return "It is null :(";
+        }
         return walletService.getWalletsFromUserByUserid(userid).get(0).toString();
     }
 }

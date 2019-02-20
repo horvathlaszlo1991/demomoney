@@ -12,6 +12,9 @@ public class User {
     private UserRole userRole;
     private List<Wallet> wallets;
 
+    public User() {
+    }
+
     public User(long id, String name, String email, String password) {
         this.id = id;
         this.name = name;

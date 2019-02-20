@@ -8,6 +8,9 @@ public class Wallet {
     private User user;
     private boolean deleted;
 
+    public Wallet() {
+    }
+
     public Wallet(long id, long cash, long card, User user) {
         this.id = id;
         this.cash = cash;
