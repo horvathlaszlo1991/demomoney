@@ -1,12 +1,10 @@
 package com.example.demo.ui.wallet;
 
 import com.example.demo.bl.wallet.WalletService;
+import com.example.demo.model.Response;
 import com.example.demo.model.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,11 +19,12 @@ public class WalletController {
     }
 
     @RequestMapping(value = "/wallets/{userid}", method = RequestMethod.GET)
-    public String getWalletsFromUserByUserid(@PathVariable long userid) {
-        //return "Hello " + userid;
-        if (walletService.getWalletsFromUserByUserid(userid).get(0) == null) {
-            return "It is null :(";
-        }
-        return walletService.getWalletsFromUserByUserid(userid).get(0).toString();
+    public List<Wallet> getWalletsFromUserByUserid(@PathVariable long userid) {
+        return walletService.getWalletsFromUserByUserid(userid);
+    }
+
+    @RequestMapping(value = "/wallets/{walletid}/{amount}", method = RequestMethod.GET)
+    public Response changeCashAmount(@PathVariable long walletid, @PathVariable long amount) {
+        return walletService.changeCashAmountByWalletId(walletid, amount);
     }
 }

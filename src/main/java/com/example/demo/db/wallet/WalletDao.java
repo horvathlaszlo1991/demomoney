@@ -3,13 +3,16 @@ package com.example.demo.db.wallet;
 import com.example.demo.db.user.UserDao;
 import com.example.demo.model.Response;
 import com.example.demo.model.User;
+import com.example.demo.model.UserRole;
 import com.example.demo.model.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -37,31 +40,22 @@ public class WalletDao {
             String uname = resultSet.getString("user.name");
             String uemail = resultSet.getString("user.email");
             String upass = resultSet.getString("user.password");
-            return new Wallet(wid, wcash, wcard, new User(wuserid, uname, uemail, upass));
+            Boolean udel = resultSet.getBoolean("user.deleted");
+            UserRole urole = UserRole.valueOf(resultSet.getString("user.role"));
+            return new Wallet(wid, wcash, wcard, new User(wuserid, uname, uemail, upass, udel, urole));
         }
     }
 
     public List<Wallet> getWalletsFromUserByUserid(long userid) {
         try {
             return jdbcTemplate.query("SELECT wallet.id, wallet.cash, wallet.card, wallet.user_id, " +
-                            "user.name, user.email, user.password " +
+                            "user.name, user.email, user.password, user.deleted, user.role " +
                             "FROM wallet JOIN user ON wallet.user_id = user.id WHERE wallet.user_id = ?", new WalletRowMapper(),
                     userid);
         } catch (DataAccessException dae) {
             return Collections.emptyList();
         }
     }
-
-    /*
-    public List<Wallet> getWalletsFromUserByUserid(long userid) {
-        try {
-            return jdbcTemplate.query("SELECT id, cash, card, user_id FROM wallet WHERE user_id = ?", new WalletRowMapper(),
-                    userid);
-        } catch (DataAccessException dae) {
-            return Collections.emptyList();
-        }
-    }
-    */
 
 
     public Response createWallet(Wallet wallet) {
@@ -96,6 +90,26 @@ public class WalletDao {
         try {
             jdbcTemplate.update("UPDATE wallet SET card = ? WHERE id = ?", card, id);
             return new Response("Cash updated succesfully", true);
+        } catch (DataAccessException dae) {
+            return new Response(dae.getMessage(), false);
+        }
+    }
+
+    public Response changeCashAmountByWalletId(long id, long amount) {
+        try {
+            jdbcTemplate.update("UPDATE wallet SET cash = cash + ? WHERE id = ?",
+                    amount, id);
+            return new Response("Cash updated succesfully", true);
+        } catch (DataAccessException dae) {
+            return new Response(dae.getMessage(), false);
+        }
+    }
+
+    public Response changeCardAmountByWalletId(long id, long amount) {
+        try {
+            jdbcTemplate.update("UPDATE wallet SET card = card + ? WHERE id = ?",
+                    id, amount, id);
+            return new Response("Card updated succesfully", true);
         } catch (DataAccessException dae) {
             return new Response(dae.getMessage(), false);
         }

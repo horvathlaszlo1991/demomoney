@@ -19,6 +19,14 @@ public class Wallet {
         this.deleted = false;
     }
 
+    public Wallet(long id, long cash, long card, User user, boolean deleted) {
+        this.id = id;
+        this.cash = cash;
+        this.card = card;
+        this.user = user;
+        this.deleted = deleted;
+    }
+
     public long getId() {
         return id;
     }

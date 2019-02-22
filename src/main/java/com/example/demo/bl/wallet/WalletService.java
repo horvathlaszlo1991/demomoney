@@ -38,4 +38,12 @@ public class WalletService {
         return walletDao.updateCardByWalletId(id, card);
     }
 
+    public Response changeCardAmountByWalletId(long id, long amount) {
+        return walletDao.changeCardAmountByWalletId(id, amount);
+    }
+
+    public Response changeCashAmountByWalletId(long id, long amount) {
+        return walletDao.changeCashAmountByWalletId(id, amount);
+    }
+
 }
