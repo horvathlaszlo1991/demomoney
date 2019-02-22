@@ -18,13 +18,19 @@ public class WalletController {
         this.walletService = walletService;
     }
 
+
     @RequestMapping(value = "/wallets/{userid}", method = RequestMethod.GET)
     public List<Wallet> getWalletsFromUserByUserid(@PathVariable long userid) {
         return walletService.getWalletsFromUserByUserid(userid);
     }
 
-    @RequestMapping(value = "/wallets/{walletid}/{amount}", method = RequestMethod.GET)
-    public Response changeCashAmount(@PathVariable long walletid, @PathVariable long amount) {
+    @RequestMapping(value = "/wallets/updatecard/{walletid}", method = RequestMethod.POST)
+    public Response changeCardAmount(@PathVariable long walletid, @RequestParam long amount) {
+        return walletService.changeCardAmountByWalletId(walletid, amount);
+    }
+
+    @RequestMapping(value = "/wallets/updatecash/{walletid}", method = RequestMethod.POST)
+    public Response changeCashAmount(@PathVariable long walletid, @RequestParam long amount) {
         return walletService.changeCashAmountByWalletId(walletid, amount);
     }
 }
