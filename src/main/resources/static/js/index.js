@@ -30,8 +30,8 @@ function getUser() {
         return response.json();
     })
     .then(function f(userData) {
-        console.log(userData);
-        greetUser(userData);
+        loggedUser = userData;
+        greetUser(loggedUser);
         return userData;
     })
 }
@@ -42,5 +42,15 @@ function greetUser(userData) {
         h1.innerHTML = "Üdvözöllek a DemoMoney oldalon, Vendég!"
     } else {
         h1.innerHTML = "Üdvözöllek a DemoMoney oldalon, " + userData.userRole + "!";
+    }
+    fillContainer(userData);
+}
+
+function fillContainer(loggedUser) {
+    let cont = document.getElementById("container");
+    if (loggedUser.userRole != null) {
+        cont.innerHTML = "Szia Jolika";
+    } else {
+        cont.innerHTML = "Szia Sárika";
     }
 }
