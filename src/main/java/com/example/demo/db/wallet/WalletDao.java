@@ -62,6 +62,8 @@ public class WalletDao {
         try {
             jdbcTemplate.update("INSERT INTO wallet (cash, card, user_id) VALUES (?, ?, ?);",
                     wallet.getCash(), wallet.getCard(), wallet.getUser().getId());
+            User user = wallet.getUser();
+            user.addWallet(wallet);
             return new Response("Wallet created succesfully", true);
         } catch (DataAccessException dae) {
             return new Response(dae.getMessage(), false);
@@ -70,7 +72,7 @@ public class WalletDao {
 
     public Response deleteWalletById(long id) {
         try {
-            jdbcTemplate.update("upDATE wallet SET deleted = 1 WHERE id = ?", id);
+            jdbcTemplate.update("UPDATE wallet SET deleted = 1 WHERE id = ?", id);
             return new Response("Wallet deleted succesfully", true);
         } catch (DataAccessException dae) {
             return new Response(dae.getMessage(), false);

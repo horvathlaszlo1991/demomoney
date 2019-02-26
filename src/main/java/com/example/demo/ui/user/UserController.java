@@ -3,7 +3,10 @@ package com.example.demo.ui.user;
 import com.example.demo.bl.user.UserService;
 import com.example.demo.model.Response;
 import com.example.demo.model.User;
+import com.example.demo.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +22,20 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<User> listAllUsers() {
         return userService.listAllUsers();
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public User getLoggedInUser(Authentication authentication) {
+        if (authentication == null) {
+            return new User();
+        } else {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String userName = userDetails.getUsername();
+            return userService.findUserByUsername(userName).get();
+        }
     }
 
     @RequestMapping("/")

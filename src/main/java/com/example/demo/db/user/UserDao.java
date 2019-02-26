@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.crypto.Data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -94,6 +93,15 @@ public class UserDao {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password, role FROM user WHERE email = ?",
                     new UserRowMapper(), email));
+        } catch (DataAccessException dae) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<User> findUserByUsername (String username) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT id, name, email, password, role FROM user WHERE name = ?",
+                    new UserRowMapper(), username));
         } catch (DataAccessException dae) {
             return Optional.empty();
         }

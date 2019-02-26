@@ -84,6 +84,15 @@ public class User {
         this.userRole = userRole;
     }
 
+    public void addWallet(Wallet wallet) {
+        wallets.add(wallet);
+    }
+
+    public void removeWallet(Wallet wallet) {
+        wallets.remove(wallet);
+    }
+
+
     @Override
     public String toString() {
         return "User{" +

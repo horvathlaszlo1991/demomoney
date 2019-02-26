@@ -51,13 +51,29 @@ public class Wallet {
         this.deleted = deleted;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setCash(long cash) {
+        this.cash = cash;
+    }
+
+    public void setCard(long card) {
+        this.card = card;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Wallet{" +
                 "id=" + id +
                 ", cash=" + cash +
                 ", card=" + card +
-                ", user=" + user +
+                ", user=" + user.getName() +
                 ", deleted=" + deleted +
                 '}';
     }

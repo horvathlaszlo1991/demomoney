@@ -1,6 +1,7 @@
 console.log('Sikerült bejelentkezni');
 
 fillTable();
+getUser();
 
 function fillTable() {
     let tableBody = document.getElementById('sum-table');
@@ -20,5 +21,26 @@ function fillTable() {
         row.appendChild(wcard);
         row.appendChild(wtotal);
         tableBody.appendChild(row);
+    }
+}
+
+function getUser() {
+    return fetch("/user")
+    .then(function retrieveUserData (response) {
+        return response.json();
+    })
+    .then(function f(userData) {
+        console.log(userData);
+        greetUser(userData);
+        return userData;
+    })
+}
+
+function greetUser(userData) {
+    let h1 = document.getElementById("title");
+    if (userData.userRole == null) {
+        h1.innerHTML = "Üdvözöllek a DemoMoney oldalon, Vendég!"
+    } else {
+        h1.innerHTML = "Üdvözöllek a DemoMoney oldalon, " + userData.userRole + "!";
     }
 }
