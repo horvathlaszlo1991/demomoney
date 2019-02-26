@@ -13,3 +13,4 @@ ENGINE=InnoDB;
 
 INSERT INTO wallet (cash, card, user_id) VALUES (135, 614, 1);
 INSERT INTO wallet (cash, card, user_id) VALUES (4165, 64614, 2);
+INSERT INTO wallet (cash, card, user_id) VALUES (9356, 6484, 2);

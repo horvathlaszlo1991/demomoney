@@ -102,7 +102,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", deleted=" + deleted +
                 ", userRole=" + userRole +
-                ", wallets=" + wallets +
                 '}';
     }
 }

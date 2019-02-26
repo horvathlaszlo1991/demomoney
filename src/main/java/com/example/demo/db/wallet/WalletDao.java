@@ -33,24 +33,18 @@ public class WalletDao {
     private static class WalletRowMapper implements RowMapper<Wallet> {
         @Override
         public Wallet mapRow(ResultSet resultSet, int i) throws SQLException {
-            long wid = resultSet.getLong("wallet.id");
-            long wcash = resultSet.getLong("wallet.cash");
-            long wcard = resultSet.getLong("wallet.card");
-            long wuserid = resultSet.getLong("wallet.user_id");
-            String uname = resultSet.getString("user.name");
-            String uemail = resultSet.getString("user.email");
-            String upass = resultSet.getString("user.password");
-            Boolean udel = resultSet.getBoolean("user.deleted");
-            UserRole urole = UserRole.valueOf(resultSet.getString("user.role"));
-            return new Wallet(wid, wcash, wcard, new User(wuserid, uname, uemail, upass, udel, urole));
+            long wid = resultSet.getLong("id");
+            long wcash = resultSet.getLong("cash");
+            long wcard = resultSet.getLong("card");
+            long wuserid = resultSet.getLong("user_id");
+            return new Wallet(wid, wcash, wcard, wuserid);
         }
     }
 
     public List<Wallet> getWalletsFromUserByUserid(long userid) {
         try {
-            return jdbcTemplate.query("SELECT wallet.id, wallet.cash, wallet.card, wallet.user_id, " +
-                            "user.name, user.email, user.password, user.deleted, user.role " +
-                            "FROM wallet JOIN user ON wallet.user_id = user.id WHERE wallet.user_id = ?", new WalletRowMapper(),
+            return jdbcTemplate.query("SELECT id, cash, card, user_id " +
+                            "FROM wallet WHERE user_id = ?", new WalletRowMapper(),
                     userid);
         } catch (DataAccessException dae) {
             return Collections.emptyList();
@@ -61,9 +55,7 @@ public class WalletDao {
     public Response createWallet(Wallet wallet) {
         try {
             jdbcTemplate.update("INSERT INTO wallet (cash, card, user_id) VALUES (?, ?, ?);",
-                    wallet.getCash(), wallet.getCard(), wallet.getUser().getId());
-            User user = wallet.getUser();
-            user.addWallet(wallet);
+                    wallet.getCash(), wallet.getCard(), wallet.getUserId());
             return new Response("Wallet created succesfully", true);
         } catch (DataAccessException dae) {
             return new Response(dae.getMessage(), false);
