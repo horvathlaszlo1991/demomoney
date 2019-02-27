@@ -49,8 +49,10 @@ function greetUser(userData) {
 function fillContainer(loggedUser) {
     let cont = document.getElementById("container");
     if (loggedUser.userRole != null) {
-        cont.innerHTML = "Szia Jolika";
+        loadAdminMenu();
+        console.log("Betöltöm az admin menüt");
     } else {
-        cont.innerHTML = "Szia Sárika";
+        loadGuestMenu();
+        console.log("Betöltöm a vendég menüt");
     }
 }
