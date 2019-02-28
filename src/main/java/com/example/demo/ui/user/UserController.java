@@ -27,6 +27,11 @@ public class UserController {
         return userService.listAllUsers();
     }
 
+    @RequestMapping(value = "/users/active", method = RequestMethod.GET)
+    public List<User> listActiveUsers() {
+        return userService.listActiveUsers();
+    }
+
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public User getLoggedInUser(Authentication authentication) {
         if (authentication == null) {
@@ -49,12 +54,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/{userid}", method = RequestMethod.GET)
-    public String getUserById(@PathVariable long userid) {
-        if (userService.findUserById(userid).isPresent()) {
-            return userService.findUserById(userid).get().toString();
-        } else {
-            return "User Not found";
-        }
+    public Optional<User> getUserById(@PathVariable long userid) {
+        return userService.findUserById(userid);
+    }
+
+    @RequestMapping(value = "/user/delete/{userid}", method = RequestMethod.DELETE)
+    public Response deleteUserById(@PathVariable long userid) {
+        return userService.deleteUserById(userid);
+    }
+
+    @RequestMapping(value = "/user/update", method = RequestMethod.POST)
+    public Response updateUser(@RequestBody User user) {
+        return userService.updateUser(user);
     }
 
 }

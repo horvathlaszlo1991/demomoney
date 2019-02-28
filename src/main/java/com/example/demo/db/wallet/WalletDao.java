@@ -89,21 +89,21 @@ public class WalletDao {
         }
     }
 
-    public Response changeCashAmountByWalletId(long id, long amount) {
+    public Response addCashAmountByWalletId(long id, long amount) {
         try {
             jdbcTemplate.update("UPDATE wallet SET cash = cash + ? WHERE id = ?",
                     amount, id);
-            return new Response("Cash updated succesfully", true);
+            return new Response("Cash amount added succesfully", true);
         } catch (DataAccessException dae) {
             return new Response(dae.getMessage(), false);
         }
     }
 
-    public Response changeCardAmountByWalletId(long id, long amount) {
+    public Response addCardAmountByWalletId(long id, long amount) {
         try {
             jdbcTemplate.update("UPDATE wallet SET card = card + ? WHERE id = ?",
                     id, amount, id);
-            return new Response("Card updated succesfully", true);
+            return new Response("Card amount added succesfully", true);
         } catch (DataAccessException dae) {
             return new Response(dae.getMessage(), false);
         }

@@ -39,6 +39,16 @@ public class UserService {
         return userDao.updateUser(user);
     }
 
+    /*
+    public User findUserById(long id) {
+        if (userDao.findUserById(id).isPresent()) {
+            return userDao.findUserById(id).get();
+        } else {
+            return null;
+        }
+    }
+    */
+
     public Optional<User> findUserById(long id) {
         return userDao.findUserById(id);
     }

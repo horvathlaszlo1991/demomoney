@@ -18,19 +18,40 @@ public class WalletController {
         this.walletService = walletService;
     }
 
+    @RequestMapping(value = "/wallets/create", method = RequestMethod.POST)
+    public Response createWallet(@RequestBody Wallet wallet) {
+        return walletService.createWallet(wallet);
+    }
 
     @RequestMapping(value = "/wallets/{userid}", method = RequestMethod.GET)
     public List<Wallet> getWalletsFromUserByUserid(@PathVariable long userid) {
         return walletService.getWalletsFromUserByUserid(userid);
     }
 
+    @RequestMapping(value = "/wallets/addcard/{walletid}", method = RequestMethod.POST)
+    public Response addCardAmount(@PathVariable long walletid, @RequestParam long amount) {
+        return walletService.addCardAmountByWalletId(walletid, amount);
+    }
+
+    @RequestMapping(value = "/wallets/addcash/{walletid}", method = RequestMethod.POST)
+    public Response addCashAmount(@PathVariable long walletid, @RequestParam long amount) {
+        return walletService.addCashAmountByWalletId(walletid, amount);
+    }
+
+    @RequestMapping(value = "/wallets/delete", method = RequestMethod.DELETE)
+    public Response deleteWalletById(@RequestParam long id) {
+        return walletService.deleteWalletById(id);
+    }
+
     @RequestMapping(value = "/wallets/updatecard/{walletid}", method = RequestMethod.POST)
-    public Response changeCardAmount(@PathVariable long walletid, @RequestParam long amount) {
-        return walletService.changeCardAmountByWalletId(walletid, amount);
+    public Response updateCardAmount(@PathVariable long walletid, @RequestParam long amount) {
+        return walletService.updateCardByWalletId(walletid, amount);
     }
 
     @RequestMapping(value = "/wallets/updatecash/{walletid}", method = RequestMethod.POST)
-    public Response changeCashAmount(@PathVariable long walletid, @RequestParam long amount) {
-        return walletService.changeCashAmountByWalletId(walletid, amount);
+    public Response updateCashAmount(@PathVariable long walletid, @RequestParam long amount) {
+        return walletService.updateCashByWalletId(walletid, amount);
     }
+
+
 }
