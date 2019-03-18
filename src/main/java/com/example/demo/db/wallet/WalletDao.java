@@ -37,13 +37,14 @@ public class WalletDao {
             long wcash = resultSet.getLong("cash");
             long wcard = resultSet.getLong("card");
             long wuserid = resultSet.getLong("user_id");
-            return new Wallet(wid, wcash, wcard, wuserid);
+            byte wdeleted = resultSet.getByte("deleted");
+            return new Wallet(wid, wcash, wcard, wuserid, wdeleted == 1);
         }
     }
 
     public List<Wallet> getWalletsFromUserByUserid(long userid) {
         try {
-            return jdbcTemplate.query("SELECT id, cash, card, user_id " +
+            return jdbcTemplate.query("SELECT id, cash, card, user_id, deleted " +
                             "FROM wallet WHERE user_id = ?", new WalletRowMapper(),
                     userid);
         } catch (DataAccessException dae) {

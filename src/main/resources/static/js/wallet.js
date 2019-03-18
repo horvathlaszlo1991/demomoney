@@ -19,9 +19,11 @@ function fillData(walletData) {
     let cashSum = 0;
     let cardSum = 0;
     for (let i = 0; i < walletData.length; i++) {
-        cashSum += walletData[i].cash;
-        cardSum += walletData[i].card;
-        fillWalletTable(walletData[i]);
+        if (!walletData[i].deleted) {
+            cashSum += walletData[i].cash;
+            cardSum += walletData[i].card;
+            fillWalletTable(walletData[i]);
+        }
     }
     cashData.innerHTML = cashSum;
     cardData.innerHTML = cardSum;
@@ -107,9 +109,28 @@ function fillWalletTable(walletData) {
     tdCard.innerHTML = walletData.card;
     let tdTotal = document.createElement("td");
     tdTotal.innerHTML = walletData.cash + walletData.card;
+    let delButton = document.createElement("button");
+    delButton.setAttribute("id", "delete-button");
+    delButton.innerHTML = "Delete me";
+    delButton.onclick = function() {deleteWallet(walletData.id)}
     trow.appendChild(tdId);
     trow.appendChild(tdCash);
     trow.appendChild(tdCard);
     trow.appendChild(tdTotal);
+    trow.appendChild(delButton);
     tbody.appendChild(trow);
+}
+
+function deleteWallet(walletId) {
+    if (confirm("Biztosan törölni akarod?")) {
+        console.log(walletId);
+        fetch('/wallets/delete?id='+ walletId, {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json; charset=utf-8'}
+            }).then(function getDeleteResponse(response) {
+                             return response.json();
+            }).then( function loadSuccessMessage(response) {
+                      document.getElementById("message-p").innerHTML = response.message;
+            });
+    }
 }
