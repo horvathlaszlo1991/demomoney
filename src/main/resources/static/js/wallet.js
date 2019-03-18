@@ -21,6 +21,7 @@ function fillData(walletData) {
     for (let i = 0; i < walletData.length; i++) {
         cashSum += walletData[i].cash;
         cardSum += walletData[i].card;
+        fillWalletTable(walletData[i]);
     }
     cashData.innerHTML = cashSum;
     cardData.innerHTML = cardSum;
@@ -93,4 +94,22 @@ function createWallet() {
                   });
     loadWalletsByUser(loggedUser.id);
 
+}
+
+function fillWalletTable(walletData) {
+    let tbody = document.getElementById("wallets-table");
+    let trow = document.createElement("tr");
+    let tdId = document.createElement("td");
+    tdId.innerHTML = walletData.id;
+    let tdCash = document.createElement("td");
+    tdCash.innerHTML = walletData.cash;
+    let tdCard = document.createElement("td");
+    tdCard.innerHTML = walletData.card;
+    let tdTotal = document.createElement("td");
+    tdTotal.innerHTML = walletData.cash + walletData.card;
+    trow.appendChild(tdId);
+    trow.appendChild(tdCash);
+    trow.appendChild(tdCard);
+    trow.appendChild(tdTotal);
+    tbody.appendChild(trow);
 }
