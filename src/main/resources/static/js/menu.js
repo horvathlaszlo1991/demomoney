@@ -2,14 +2,13 @@ function loadAdminMenu() {
     let cont = document.getElementById("container");
     createMenu(cont, "/users", "Ide kattints Jóska!");
     createMenu(cont, "/wallets/2", "Itt vannak a pénztárcák");
+    createMenu(cont, "/mywallet.html", "Az én pénztárcám");
 }
 
 function loadGuestMenu() {
     let cont = document.getElementById("container");
-    let usersG = document.createElement("a");
-    usersG.setAttribute("href", "/wallets/1");
-    usersG.innerHTML = "Ide kattints, Vendég";
-    cont.appendChild(usersG);
+    createMenu(cont, "/wallets/1", "Ide kattints, Vendég");
+    createMenu(cont, "/login.html", "Jelentkezz be, Vendég");
 }
 
 function createMenu(place, link, text) {

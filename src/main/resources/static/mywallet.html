@@ -8,7 +8,31 @@
 
     <h1>My Wallet</h1>
 
-    <div id="form"></div>
+    <h3>Az én pénztárcámban jelenleg van:</h3>
+        <h4>Készpénz</h4>
+        <p id="cash-amount"></p>
+        <h4>Bankkártya</h4>
+        <p id="card-amount"></p>
+
+    <h3>Megváltoztatom a pénztárcám tartalmát</h3>
+
+    <div id="form">
+        <form>
+            <p>Ezt HTML kóddal csináltam</p>
+
+            <label for="cash-input">Készpénz</label>
+            <input type="number" id="cash-input" placeholder="Ide írd az összeget"/>
+            <br>
+
+            <label for="card-input">Bankkártya</label>
+            <input type="number" id="card-input" placeholder="Ide írd az összeget"/>
+            <br>
+
+            <input type="submit" id="submit-button" class="btn btn-primary" value="OK"/>
+            <input type="reset" id="reset-button" class="btn btn-secondary" value="Mégse"/>
+
+        </form>
+    </div>
 
 
     <script src="/js/menu.js"></script>
