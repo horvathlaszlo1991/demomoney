@@ -83,7 +83,7 @@ public class WalletDao {
     public Response updateCardByWalletId(long id, long card) {
         try {
             jdbcTemplate.update("UPDATE wallet SET card = ? WHERE id = ?", card, id);
-            return new Response("Cash updated succesfully", true);
+            return new Response("Card updated succesfully", true);
         } catch (DataAccessException dae) {
             return new Response(dae.getMessage(), false);
         }
