@@ -94,7 +94,6 @@ function createWallet() {
                       }).then( function loadSuccessMessage(response) {
                           document.getElementById("message-p").innerHTML = response.message;
                   });
-    loadWalletsByUser(loggedUser.id);
 
 }
 
