@@ -1,8 +1,8 @@
 console.log('Sikerült bejelentkezni');
 
-fillTable();
 getUser();
 
+/*
 function fillTable() {
     let tableBody = document.getElementById('sum-table');
     for (let i = 0; i < 4; i++) {
@@ -23,6 +23,7 @@ function fillTable() {
         tableBody.appendChild(row);
     }
 }
+*/
 
 function getUser() {
     return fetch("/user")
