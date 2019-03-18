@@ -3,7 +3,28 @@ createForm();
 let loggedUser = getUser();
 
 function loadWalletsByUser(userid) {
+    fetch("/wallets/" + userid)
+    .then(function (request) {
+              return request.json();
+            })
+            .then(function (jsonData) {
+              console.log(jsonData);
+              fillData(jsonData);
+            });
+}
 
+function fillData(walletData) {
+    let cashData = document.getElementById("cash-amount");
+    let cardData = document.getElementById("card-amount");
+    let cashSum = 0;
+    let cardSum = 0;
+    for (let i = 0; i < walletData.length; i++) {
+        cashSum += walletData[i].cash;
+        cardSum += walletData[i].card;
+    }
+    cashData.innerHTML = cashSum;
+    cardData.innerHTML = cardSum;
+    console.log("Sikeresen kiszámoltam az összes pénzt!");
 }
 
 function getUser() {
@@ -13,6 +34,7 @@ function getUser() {
     })
     .then(function f(userData) {
         loggedUser = userData;
+        loadWalletsByUser(loggedUser.id);
         console.log(loggedUser);
         return userData;
     })
@@ -41,7 +63,6 @@ function createForm() {
     submitButton.setAttribute("value", "Mehet");
     submitButton.onclick = function() {
         console.log("Rám kattintottál");
-        updateWallet();
         createWallet();
     }
     form.appendChild(submitButton);
@@ -54,14 +75,6 @@ function createInput(place, type, name, id) {
     input.setAttribute("name", name);
     input.setAttribute("id", id);
     place.appendChild(input);
-}
-
-
-function updateWallet() {
-    let cashInput = document.getElementById("cash-id");
-    let cardInput = document.getElementById("card-id");
-    console.log("Cash input: " + cashInput.value);
-    console.log("Card input: " + cardInput.value);
 }
 
 function createWallet() {
@@ -78,5 +91,6 @@ function createWallet() {
                       }).then( function loadSuccessMessage(response) {
                           document.getElementById("message-p").innerHTML = response.message;
                   });
+    loadWalletsByUser(loggedUser.id);
 
 }
