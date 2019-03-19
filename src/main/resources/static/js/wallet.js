@@ -156,14 +156,15 @@ function saveEditedWallet(id) {
         let newCash = document.getElementById("cash-input").value;
         let newCard = document.getElementById("card-input").value;
         let mes = document.getElementById("message-p");
+        let url = '/wallets/updatewallet/' + id + '?cash=' + newCash + '&card=' + newCard;
         let res = 0;
-        fetch('/wallets/updatewallet/' + id + '?cash=' + newCash + '&card=' + newCard, {
+        fetch(url, {
             method: 'POST',
             headers: {'Content-Type': 'application/json; charset=utf-8'}
-            }).then(function f(response) {
+            }).then(function(response) {
                 res = response;
                 return response.json();
-            }).then(function r(response) {
+            }).then(function(response) {
                 res = response;
                 mes.innerHTML = response.message;
             });
@@ -171,4 +172,3 @@ function saveEditedWallet(id) {
             alert(res);
 
 }
-
