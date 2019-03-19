@@ -28,6 +28,7 @@ function fillData(walletData) {
     cashData.innerHTML = cashSum;
     cardData.innerHTML = cardSum;
     console.log("Sikeresen kiszámoltam az összes pénzt!");
+    document.getElementById("form-html").style.display = "none";
 }
 
 function getUser() {
@@ -112,11 +113,16 @@ function fillWalletTable(walletData) {
     delButton.setAttribute("id", "delete-button");
     delButton.innerHTML = "Delete me";
     delButton.onclick = function() {deleteWallet(walletData.id)}
+    let editButton = document.createElement("button");
+    editButton.setAttribute("id", "edit-button");
+    editButton.innerHTML = "Edit me";
+    editButton.onclick = function() {editWallet(walletData)};
     trow.appendChild(tdId);
     trow.appendChild(tdCash);
     trow.appendChild(tdCard);
     trow.appendChild(tdTotal);
     trow.appendChild(delButton);
+    trow.appendChild(editButton);
     tbody.appendChild(trow);
 }
 
@@ -132,4 +138,14 @@ function deleteWallet(walletId) {
                       document.getElementById("message-p").innerHTML = response.message;
             });
     }
+}
+
+function editWallet(walletData) {
+    document.getElementById("form-html").style.display = "inline";
+    let cashInput = document.getElementById("cash-input");
+    let cardInput = document.getElementById("card-input");
+    cashInput.value = walletData.cash;
+    cardInput.value = walletData.card;
+    document.getElementById("reset-button").onclick = function() {document.getElementById("form-html").style.display = "none";}
+    console.log("Eddig működik");
 }
