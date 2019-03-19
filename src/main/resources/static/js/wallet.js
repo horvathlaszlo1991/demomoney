@@ -116,7 +116,7 @@ function fillWalletTable(walletData) {
     let editButton = document.createElement("button");
     editButton.setAttribute("id", "edit-button");
     editButton.innerHTML = "Edit me";
-    editButton.onclick = function() {editWallet(walletData)};
+    editButton.onclick = function() {updateWallet(walletData)};
     trow.appendChild(tdId);
     trow.appendChild(tdCash);
     trow.appendChild(tdCard);
@@ -140,7 +140,7 @@ function deleteWallet(walletId) {
     }
 }
 
-function editWallet(walletData) {
+function updateWallet(walletData) {
     document.getElementById("form-html").style.display = "inline";
     let cashInput = document.getElementById("cash-input");
     let cardInput = document.getElementById("card-input");
@@ -148,4 +148,27 @@ function editWallet(walletData) {
     cardInput.value = walletData.card;
     document.getElementById("reset-button").onclick = function() {document.getElementById("form-html").style.display = "none";}
     console.log("Eddig működik");
+    let updateButton = document.getElementById("update-button");
+    updateButton.onclick = function() {saveEditedWallet(walletData.id)};
 }
+
+function saveEditedWallet(id) {
+        let newCash = document.getElementById("cash-input").value;
+        let newCard = document.getElementById("card-input").value;
+        let mes = document.getElementById("message-p");
+        let res = 0;
+        fetch('/wallets/updatewallet/' + id + '?cash=' + newCash + '&card=' + newCard, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json; charset=utf-8'}
+            }).then(function f(response) {
+                res = response;
+                return response.json();
+            }).then(function r(response) {
+                res = response;
+                mes.innerHTML = response.message;
+            });
+
+            alert(res);
+
+}
+

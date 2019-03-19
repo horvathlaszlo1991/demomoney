@@ -43,6 +43,13 @@ public class WalletController {
         return walletService.deleteWalletById(id);
     }
 
+
+    @RequestMapping(value = "/wallets/updatewallet/{walletid}", method = RequestMethod.POST)
+    public Response updateWallet(@PathVariable long walletid, @RequestParam long cash, @RequestParam long card) {
+        return walletService.updateWalletById(walletid, cash, card);
+    }
+
+    /*
     @RequestMapping(value = "/wallets/updatecard/{walletid}", method = RequestMethod.POST)
     public Response updateCardAmount(@PathVariable long walletid, @RequestParam long amount) {
         return walletService.updateCardByWalletId(walletid, amount);
@@ -52,6 +59,6 @@ public class WalletController {
     public Response updateCashAmount(@PathVariable long walletid, @RequestParam long amount) {
         return walletService.updateCashByWalletId(walletid, amount);
     }
-
+    */
 
 }

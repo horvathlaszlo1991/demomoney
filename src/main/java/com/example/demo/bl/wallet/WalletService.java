@@ -30,12 +30,27 @@ public class WalletService {
         return walletDao.deleteWalletById(id);
     }
 
+    /*
     public Response updateCashByWalletId(long id, long cash) {
+        if (cash < 0) {
+            return new Response("Cash amount cannot be negative", false);
+        }
         return walletDao.updateCashByWalletId(id, cash);
     }
 
     public Response updateCardByWalletId(long id, long card) {
+        if (card < 0) {
+            return new Response("Card amount cannot be negative", false);
+        }
         return walletDao.updateCardByWalletId(id, card);
+    }
+    */
+
+    public Response updateWalletById(long id, long cash, long card) {
+        if (card < 0 || cash < 0) {
+            return new Response("Amount cannot be negative", false);
+        }
+        return walletDao.updateWalletById(id, cash, card);
     }
 
     public Response addCardAmountByWalletId(long id, long amount) {

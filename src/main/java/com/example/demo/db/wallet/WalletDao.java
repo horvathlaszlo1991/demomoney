@@ -72,6 +72,7 @@ public class WalletDao {
         }
     }
 
+    /*
     public Response updateCashByWalletId(long id, long cash) {
         try {
             jdbcTemplate.update("UPDATE wallet SET cash = ? WHERE id = ?", cash, id);
@@ -85,6 +86,16 @@ public class WalletDao {
         try {
             jdbcTemplate.update("UPDATE wallet SET card = ? WHERE id = ?", card, id);
             return new Response("Card updated succesfully", true);
+        } catch (DataAccessException dae) {
+            return new Response(dae.getMessage(), false);
+        }
+    }
+    */
+
+    public Response updateWalletById(long id, long cash, long card) {
+        try {
+            jdbcTemplate.update("UPDATE wallet SET card = ?, cash = ? WHERE id = ?", card, cash, id);
+            return new Response("Wallet updated succesfully", true);
         } catch (DataAccessException dae) {
             return new Response(dae.getMessage(), false);
         }
